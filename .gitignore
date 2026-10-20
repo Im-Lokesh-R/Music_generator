@@ -1,0 +1,6 @@
+node_modules/
+app/dist/
+training/.venv/
+training/work/
+__pycache__/
+*.pyc
