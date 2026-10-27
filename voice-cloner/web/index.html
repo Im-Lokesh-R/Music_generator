@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VoiceClone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4M21 12h0" /></svg>
+      </span>
+      <span>VoiceClone</span>
+    </div>
+    <div id="status" class="status status-loading"><span class="dot"></span><span id="status-text">Connecting…</span></div>
+  </header>
+
+  <main class="layout">
+    <!-- ============ 1. VOICE ============ -->
+    <section class="panel" id="voice-panel">
+      <div class="panel-head">
+        <span class="step">1</span>
+        <div>
+          <h2>Give a voice</h2>
+          <p class="sub">At least <b>10 seconds</b> of one person speaking clearly, with no music or background noise.</p>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="record" role="tab">🎙 Record</button>
+        <button class="tab" data-tab="upload" role="tab">⬆ Upload</button>
+      </div>
+
+      <!-- Record -->
+      <div class="tab-body" id="tab-record">
+        <div class="script">
+          <div class="script-head">
+            <span>Read this aloud</span>
+            <button class="link" id="next-script">Another text ↻</button>
+          </div>
+          <p id="script-text"></p>
+        </div>
+
+        <canvas id="wave" height="90"></canvas>
+
+        <div class="rec-row">
+          <button id="rec-btn" class="rec-btn" aria-label="Start recording"><span></span></button>
+          <div class="rec-meta">
+            <div class="rec-time"><span id="rec-time">0.0</span>s</div>
+            <div class="meter"><div id="rec-progress"></div><i style="left:16.66%"></i></div>
+            <div class="hint" id="rec-hint">Press the red button and start reading</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload -->
+      <div class="tab-body hidden" id="tab-upload">
+        <label class="drop" id="drop">
+          <input type="file" id="file-input" accept="audio/*,video/*" hidden />
+          <div class="drop-icon">⬆</div>
+          <div><b>Drop an audio file</b> or click to browse</div>
+          <div class="hint">WAV, MP3, M4A, OGG, WEBM, even a video file</div>
+        </label>
+      </div>
+
+      <!-- Pending sample, from either tab -->
+      <div class="pending hidden" id="pending">
+        <audio id="pending-audio" controls></audio>
+        <div class="pending-row">
+          <input id="voice-name" type="text" maxlength="60" placeholder="Name this voice, e.g. My voice" />
+          <button id="save-voice" class="btn primary">Clone voice</button>
+          <button id="discard" class="btn ghost" title="Discard">✕</button>
+        </div>
+        <div class="hint" id="pending-info"></div>
+      </div>
+
+      <div class="library-head">
+        <h3>Your voices</h3>
+        <span class="count" id="voice-count">0</span>
+      </div>
+      <div id="voices" class="voices"></div>
+    </section>
+
+    <!-- ============ 2. TEXT ============ -->
+    <section class="panel" id="text-panel">
+      <div class="panel-head">
+        <span class="step">2</span>
+        <div>
+          <h2>Type what it should say</h2>
+          <p class="sub">Speaking as: <b id="selected-voice-name">select a voice</b></p>
+        </div>
+      </div>
+
+      <div class="textarea-wrap">
+        <textarea id="text" rows="7" maxlength="2000" placeholder="Hello! This is my cloned voice. I never actually said these words."></textarea>
+        <span class="char" id="char">0 / 2000</span>
+      </div>
+
+      <div class="controls">
+        <label class="field">
+          <span>Language</span>
+          <select id="language"></select>
+        </label>
+        <label class="field">
+          <span>Speed <output id="speed-out">1.00×</output></span>
+          <input type="range" id="speed" min="0.6" max="1.6" step="0.05" value="1" />
+        </label>
+        <label class="field">
+          <span>Expressiveness <output id="temp-out">0.70</output></span>
+          <input type="range" id="temperature" min="0.1" max="1" step="0.05" value="0.7" />
+        </label>
+      </div>
+
+      <button id="generate" class="btn primary big" disabled>
+        <span class="btn-label">Generate speech</span>
+        <span class="kbd">Ctrl ↵</span>
+      </button>
+      <div class="hint center" id="gen-hint"></div>
+
+      <!-- ============ 3. LISTEN ============ -->
+      <div class="panel-head listen-head">
+        <span class="step">3</span>
+        <div><h2>Listen</h2></div>
+      </div>
+      <div id="player" class="player empty">
+        <div class="player-empty">Generated audio will appear here.</div>
+      </div>
+
+      <div class="library-head">
+        <h3>History</h3>
+        <span class="count" id="gen-count">0</span>
+      </div>
+      <div id="history" class="history"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

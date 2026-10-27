@@ -4,3 +4,7 @@ training/.venv/
 training/work/
 __pycache__/
 *.pyc
+
+# voice-cloner
+voice-cloner/.venv/
+voice-cloner/data/

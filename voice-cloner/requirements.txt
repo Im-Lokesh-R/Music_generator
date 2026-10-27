@@ -1,0 +1,7 @@
+# Install PyTorch first (see README), then: pip install -r requirements.txt
+coqui-tts>=0.24
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+soundfile>=0.12
+numpy

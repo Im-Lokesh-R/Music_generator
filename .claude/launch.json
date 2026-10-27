@@ -6,6 +6,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "C:/Users/lokes/Desktop/Music_generator/app", "run", "dev"],
       "port": 5173
+    },
+    {
+      "name": "voiceclone",
+      "runtimeExecutable": "C:/Users/lokes/Desktop/Music_generator/voice-cloner/.venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "uvicorn", "app:app", "--app-dir", "C:/Users/lokes/Desktop/Music_generator/voice-cloner/server", "--port", "8000"],
+      "env": { "COQUI_TOS_AGREED": "1" },
+      "port": 8000
     }
   ]
 }
